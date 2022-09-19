@@ -30,6 +30,9 @@ const Ideas = () => {
 
     const submitHandler = (event, index) => {
         event.preventDefault()
+        // if(inputList.input.trim().length === 0){
+        //     alert("Please enter a valid idea")
+        // }
         changeInputList(index, 'editable', false);
     }
 
@@ -48,11 +51,19 @@ const Ideas = () => {
         setInputList(result)
     }
 
+    console.log(inputList)
+
+    const dontAllowNewInput = inputList.some(item => item.editable === true)
+
+    console.log(dontAllowNewInput)
+
   return (
     <div className='w-full h-full px-12'>
         <header className='flex items-center justify-between border-b border-idpool-gray h-24'>
             <h1 className='text-2xl font-light '>My Ideas</h1>
-            <Button imgBefore={<Icon.Plus className='text-idpool-white' />} rounded bgColor = 'bg-idpool-main' color='text-idpool-white' onClick={addIdeaInput} />
+            <button className={`text-idpool-white rounded-full p-4 ${dontAllowNewInput ? "bg-idpool-gray" : "bg-idpool-main"} `} onClick={addIdeaInput} disabled = {dontAllowNewInput}>
+            <Icon.Plus className='text-idpool-white' />
+            </button>
         </header>
 
         { inputList.length > 0 ? <main className='w-full pt-24 space-y-24' style={{ height: 'calc(100vh - 96px)'}} >
