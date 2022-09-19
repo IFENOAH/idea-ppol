@@ -2,7 +2,7 @@ import React from 'react'
 
 const EmptyState = ({text}) => {
   return (
-    <div className='flex flex-col w-full h-full flex items-center justify-center m-auto'>
+    <div className='flex flex-col w-full flex items-center justify-center'>
         <img style={{
             width: '200px',
             height: '200px',

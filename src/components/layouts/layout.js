@@ -16,10 +16,10 @@ export const MainAppLayout = ({children}) => {
   };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-full">
             {/** Backdrop - Show on mobile */}
             <div
-                className={`fixed inset-0 z-10 bg-vencru-main bg-opacity-75 lg:hidden`}
+                className={`fixed inset-0 z-10 bg-opacity-75 lg:hidden`}
                 style={{
                 opacity: 0.5,
                 display: isMobile && showPanel ? 'block' : 'none',
@@ -46,7 +46,7 @@ export const MainAppLayout = ({children}) => {
             >
                 {/* Mobile header */}
                 <div
-                    className={`sticky w-full flex items-center justify-between bg-vencru-white border-b border-vencru-stroke p-4 top-0 ${ !isMobile && 'hidden'} ${
+                    className={`sticky w-full flex items-center justify-between bg-idpool-main border-b border-vencru-stroke p-4 top-0 ${ !isMobile && 'hidden'} ${
                         isMobile && showPanel && 'opacity-10'
                     }`}
                 >
@@ -63,10 +63,8 @@ export const MainAppLayout = ({children}) => {
                 </div>
                 
                 {/* content */}
-                <div className="flex flex-col flex-1 h-full min-h-screen overflow-x-hidden overflow-y-auto bg-vencru-background py-6 px-6  lg:px-12">
-                    <div>
-                        {children}
-                    </div>
+                <div className="flex flex-col flex-1 h-full min-h-screen overflow-x-hidden overflow-y-auto bg-vencru-background">
+                    {children}
                 </div>
             </main>
         </div>
