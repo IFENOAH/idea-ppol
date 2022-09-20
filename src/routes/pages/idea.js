@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import Button from '../../components/Forms/button'
 import * as Icon from 'react-feather'
 import EmptyState from '../../components/emptystate/emptystate'
 
@@ -18,6 +17,10 @@ const Ideas = () => {
     const getInputValue = (event, index) => {
         const {name, value} = event.target
         changeInputList(index, name, value)
+        const impact = impactInputRef.current.value
+        const ease = easeInputRef.current.value
+        const confidence = confidenceInputRef.current.value
+        console.log(impact, ease, confidence)
     }
 
     const removeIdea = (index) => {
@@ -30,9 +33,13 @@ const Ideas = () => {
 
     const submitHandler = (event, index) => {
         event.preventDefault()
-        // if(inputList.input.trim().length === 0){
-        //     alert("Please enter a valid idea")
-        // }
+        const inputValue = inputList.some(item => item.input === '')
+        console.log(inputValue)
+        if(inputValue){
+            alert("Please enter a valid idea")
+            return ;
+        }
+
         changeInputList(index, 'editable', false);
     }
 
@@ -50,8 +57,6 @@ const Ideas = () => {
         }, [])
         setInputList(result)
     }
-
-    console.log(inputList)
 
     const dontAllowNewInput = inputList.some(item => item.editable === true)
 
@@ -90,7 +95,7 @@ const Ideas = () => {
                                         defaultValue = "10"
                                         readOnly = ''
                                         ref  = {impactInputRef}
-                                        // onChange = { e => getInputValue(e, index)}
+                                        onChange = { e => getInputValue(e, singleInput.index)}
                                     />
                                 </div>
                 
@@ -106,7 +111,7 @@ const Ideas = () => {
                                         defaultValue = "10"
                                         readOnly = {!singleInput.editable}
                                         ref  = {easeInputRef}
-                                        // onChange = { e => getInputValue(e, index)}
+                                        onChange = { e => getInputValue(e, singleInput.index)}
                                     />
                                 </div>
                 
@@ -122,7 +127,7 @@ const Ideas = () => {
                                         defaultValue = "10"
                                         readOnly = {!singleInput.editable}
                                         ref  = {confidenceInputRef}
-                                        // onChange = { e => getInputValue(e, index)}
+                                        onChange = { e => getInputValue(e, singleInput.index)}
                                     />
                                 </div>
                 
@@ -130,15 +135,24 @@ const Ideas = () => {
                                     <label className="text-sm font-medium">Avg.</label>
                                     <span>10</span>
                                 </div>
-                
-                                {/* <Button imgAfter={<Icon.Check className="text-idpool-main" />} link />  */}
-                                <button className='pr-4' type='submit' onClick={(event) => submitHandler(event, singleInput.index)}>
-                                    <Icon.Check className='text-idpool-main' />
-                                </button>
+                                { singleInput.editable ? 
+                                    <button className='pr-4' type='submit' onClick={(event) => submitHandler(event, singleInput.index)}>
+                                        <Icon.Check className='text-idpool-main' />
+                                    </button> 
+                                        : 
+                                    <button type='button' onClick={( index )=> {changeInputList(singleInput.index, 'editable', true)}} >
+                                        <Icon.Edit3 className='mr-4' onClick = {''} />
+                                    </button> }
 
-                                <button type='button' onClick={() => removeIdea(singleInput.index)}>
-                                    <Icon.X className='text-idpool-red' />
-                                </button>
+                                    { !singleInput.editable ? 
+                                        <button type='button' onClick={() => removeIdea(singleInput.index)}>
+                                            <Icon.Trash2 className='text-2xl text-idpool-red' />
+                                        </button> 
+                                        :
+                                        <button type='button' onClick={() => removeIdea(singleInput.index)}>
+                                            <Icon.X className='text-idpool-red' />
+                                        </button>
+                                    }
                             </div>
                         </div>
                     </form>
@@ -157,42 +171,3 @@ const Ideas = () => {
 }
 
 export default Ideas
-
-
-
-// import clsx from 'clsx';
-// import { forwardRef, HTMLProps, useState } from 'react';
-// import S from './InlineEditInput.module.css';
-
-// const InlineEditInput = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
-//   ({ className, onBlur, onKeyDown, ...restProps }, ref) => {
-//     const [isEditing, setIsEditing] = useState(false);
-//     return (
-//       <input
-//         readOnly={!isEditing}
-//         onClick={() => {
-//           setIsEditing(true);
-//         }}
-//         onBlur={(e) => {
-//         setIsEditing(false);
-//           onBlur?.(e);
-//         }}
-//         onKeyDown={(e) => {
-//           if (['Esc', 'Escape', 'Enter'].includes(e.key)) {
-//             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//             ((e.currentTarget || e.target) as any).blur();
-//           }
-//           onKeyDown?.(e);
-//         }}
-//         ref={ref}
-//         className={clsx(className, S.base, isEditing && S.editing)}
-//         {...restProps}
-//       />
-//     );
-//   }
-// );
-
-// InlineEditInp
-// InlineEditInput.displayName = 'InlineEditInput';
-
-// export default InlineEditInput;
